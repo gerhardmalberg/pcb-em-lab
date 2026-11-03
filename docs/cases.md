@@ -14,35 +14,41 @@ Palace's independent CPU MPI default remains two ranks with one thread per rank.
 
 Paths in a case resolve relative to the case file. `project_root` contains the
 board and any project-local assets. `output` must be a dedicated generated-results
-directory. BMS cases write under `sim/results/em`, already ignored by that repository.
+directory. The supplied example writes under ignored `results/examples/differential-pair/`.
 
 Common keys:
 
 ```json
 {
-  "name": "communication-section",
+  "name": "Standalone differential-pair cross-section",
   "mode": "2d",
   "analysis": "boundary-mode",
-  "board": "../../../design/board.kicad_pcb",
-  "project_root": "../../..",
-  "output": "../../results/em/communication-section",
+  "board": "board.kicad_pcb",
+  "project_root": ".",
+  "output": "../../results/examples/differential-pair/2d",
   "execution": {
-    "backend": "auto",
+    "backend": "cpu",
+    "mpi_ranks": 2,
     "threads_per_rank": 1,
     "gpu_count": 1
   },
   "mesh": {
-    "fine_mm": 0.05,
+    "fine_mm": 0.1,
     "coarse_mm": 1.5,
     "scale": 1,
-    "order": 2
+    "order": 2,
+    "threads": 1
   },
   "materials": {
-    "substrate_epsilon_r": 4.5,
+    "substrate_epsilon_r": 4.2,
     "soldermask_epsilon_r": 3.3
   },
   "assumptions": [
-    "Replace material estimates with the manufacturer's characterized stackup."
+    "Synthetic 20 x 12 mm two-layer board, independent of external projects and libraries.",
+    "Two straight 0.8 mm traces with a 0.6 mm edge gap over a saved rectangular ground plane.",
+    "Uniform cross-section at x=10 mm; the drawing line identifies the cut in KiCad.",
+    "Lossless estimated dielectric and PEC copper; illustrative modal fields, not a manufactured-board impedance qualification.",
+    "The finite air domain and this teaching mesh have not undergone mesh/domain convergence studies."
   ]
 }
 ```
@@ -77,23 +83,23 @@ uniform line approximation, not an end-to-end communication link.
 
 ```json
 {
-  "frequency_hz": 4000000,
+  "frequency_hz": 100000000,
   "cross_section": {
     "line_mm": [
       [
-        292,
-        123
+        10,
+        0
       ],
       [
-        302,
-        123
+        10,
+        12
       ]
     ],
     "pair": [
-      "/bq79616/COMHP",
-      "/bq79616/COMHN"
+      "P",
+      "N"
     ],
-    "air_margin_mm": 6,
+    "air_margin_mm": 4,
     "target_index": 1.8,
     "modes": 2
   }
@@ -165,13 +171,13 @@ be supplied as a separate mechanical solid. The modeled connection ends at the
 board-mounted contacts and excludes mating cables and external assemblies.
 
 `connectors` supplies `ref`, `height_mm` and `pin_width_mm`. Ports name their
-positive/negative component pads (`J501:1`, `J501:2`) and `reference_ohms`.
+positive/negative component pads (`J1:1`, `J1:2`) and `reference_ohms`.
 Optional `positive_xy_mm` / `negative_xy_mm` place a calibration plane on the
 corresponding saved F.Cu net. The generator rejects coordinates outside those nets
 and a gap crossing other copper. The port's integration direction runs from the
 declared positive to negative terminal. `geometry.json` records actual coordinates.
 Optional `positive_net` / `negative_net` assertions detect a pin/net assignment
-change before solving; the supplied BMS connector cases use them.
+change before solving; the supplied 3D differential-pair example uses them.
 Pin-top ports end at board-mounted connector contacts.
 Uniform lumped ports require a rectangular gap. Place a trace calibration plane
 between parallel straight trace segments; a gap clipped by angled fanout edges is

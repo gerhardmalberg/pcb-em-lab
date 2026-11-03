@@ -15,12 +15,12 @@ def test_complete_excitation_matrix_keeps_order_phase_and_reference(tmp_path):
             header.extend([f'|S[{port}][{excitation}]| (dB)',f'arg(S[{port}][{excitation}]) (deg.)'])
             values.extend([-20*port,90*excitation])
         (folder/'port-S.csv').write_text(','.join(header)+'\n'+','.join(map(str,values))+'\n')
-    metadata=[{'name':'COMH','reference_ohms':100},{'name':'connector','reference_ohms':50}]
+    metadata=[{'name':'input','reference_ohms':100},{'name':'connector','reference_ohms':50}]
     network=assemble_network(tmp_path,metadata)
     assert network.f[0]==pytest.approx(4e6)
     assert network.s[0,0,0]==pytest.approx(.1j)
     assert network.s[0,1,1]==pytest.approx(-.01)
-    assert network.port_names==['COMH','connector']
+    assert network.port_names==['input','connector']
     assert list(network.z0[0])==[100,50]
     (tmp_path/'excitation-2/port-S.csv').write_text('f (GHz)\n0.004\n')
     with pytest.raises(WorkflowError,match='Incomplete S matrix'):
@@ -62,8 +62,8 @@ def test_series_winding_preserves_mutual_inductance_and_polarity(tmp_path):
 def test_postprocess_exports_standard_touchstone_reference(tmp_path):
     import skrf
     from pcb_em.postprocess import process
-    metadata=[{'name':'input','reference_ohms':100,'positive':'T502:4','negative':'T502:6'},
-              {'name':'output','reference_ohms':50,'positive':'J502:2','negative':'J502:1'}]
+    metadata=[{'name':'input','reference_ohms':100,'positive':'T1:4','negative':'T1:6'},
+              {'name':'output','reference_ohms':50,'positive':'J1:2','negative':'J1:1'}]
     (tmp_path/'mesh').mkdir()
     (tmp_path/'mesh/geometry.json').write_text(json.dumps({'dimension':3,'ports':metadata}))
     for excitation in (1,2):

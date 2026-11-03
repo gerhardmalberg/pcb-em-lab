@@ -8,8 +8,9 @@ The supplied [differential-pair example](examples/differential-pair/README.md)
 runs independently; no hardware checkout is needed.
 
 CPU, tools and CUDA workflows have been exercised on the laptop. See
-[validation status](docs/validation.md) for passed checks and numerical limitations. Generated BMS models are exploratory, and do
-not establish impedance acceptance, EMC compliance or component qualification.
+[validation status](docs/validation.md) for passed checks and numerical limitations.
+Generated models require geometry, material and convergence review before drawing
+conclusions about impedance acceptance, EMC compliance or component qualification.
 
 ## Quick start
 
@@ -181,9 +182,8 @@ GUI preferences persist separately for each application under ignored `.cache/gu
 The original software, build recipes, configuration and documentation in this
 repository are licensed under [Apache-2.0](LICENSE).
 Copyright 2026 Gerhard Malberg; see [NOTICE](NOTICE).
-The separate BMS hardware repository, including its case inputs, retains
-CERN-OHL-P-2.0. Installed third-party programs and downloaded upstream sources
-retain their own licenses. Refer to the pinned upstream sources in `env/pins.json` and
+Input designs and case assets retain their own licenses. Installed third-party
+programs and downloaded upstream sources retain their own licenses. Refer to the pinned upstream sources in `env/pins.json` and
 the package inventory exported with each image. Numerical algorithms and JSON
 configuration follow the [Palace documentation](https://awslabs.github.io/palace/).
 For the Ubuntu 24.04 Podman/NVIDIA CDI compatibility setting, see

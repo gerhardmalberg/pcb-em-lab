@@ -10,7 +10,5 @@ retain their respective copyright notices and licenses. This repository's licens
 does not relicense the programs installed into its container images. Upstream
 sources and versions are recorded in env/pins.json and env/locks/.
 
-The separate bms-cmu-bq79616-hardware repository and its original hardware design
-and case inputs remain under CERN-OHL-P-2.0, subject to their own third-party
-notices. Running this workflow does not change the license of input designs or
-incorporated third-party material.
+Running this workflow does not change the license of input designs, case assets
+or incorporated third-party material.

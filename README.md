@@ -20,7 +20,7 @@ files use JSON and are read with Python's standard library; no host Python
 packages are required.
 
 ```bash
-git clone https://github.com/gerhardmalberg88/pcb-em-lab.git
+git clone https://github.com/gerhardmalberg/pcb-em-lab.git
 cd pcb-em-lab
 ./pcb-em bootstrap
 ./pcb-em build --profile cpu --jobs 2
